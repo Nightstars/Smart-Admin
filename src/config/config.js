@@ -2,11 +2,17 @@
 module.exports = {
   theme: {
     color: '#13c2c2',
-    mode: 'dark',
+    mode: 'light',
+    success: '#52c41a',
+    warning: '#faad14',
+    error: '#f5222f'
   },
   multiPage: true,
+  hideSetting: true,
   animate: {
+    disabled: false,
     name: 'lightSpeed',
     direction: 'left'
   }
 }
+
