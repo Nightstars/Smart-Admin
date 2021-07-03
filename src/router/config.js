@@ -30,7 +30,8 @@ const options = {
           path: 'demo',
           name: '演示页',
           meta: {
-            icon: 'file-ppt'
+            icon: 'file-ppt',
+            invisible: true
           },
           component: () => import('@/pages/demo')
         },
@@ -54,6 +55,7 @@ const options = {
           name: '父级路由1',
           meta: {
             icon: 'dashboard',
+            invisible: true
           },
           component: BlankView,
           children: [
@@ -68,7 +70,8 @@ const options = {
           path: 'parent2',
           name: '父级路由2',
           meta: {
-            icon: 'form'
+            icon: 'form',
+            invisible: true
           },
           component: PageView,
           children: [
@@ -84,6 +87,7 @@ const options = {
           name: '异常页',
           meta: {
             icon: 'warning',
+            invisible: true
           },
           component: BlankView,
           children: [

@@ -41,7 +41,8 @@
             "id": 28,
             "name": "Bing",
             "url": "https://cn.bing.com/",
-            "icon": "https://tse4-mm.cn.bing.net/th/id/OIP.s73DQ1unh_fCikRPyJp1ewHaHa?pid=ImgDet&rs=1",
+            // "icon": "https://tse4-mm.cn.bing.net/th/id/OIP.s73DQ1unh_fCikRPyJp1ewHaHa?pid=ImgDet&rs=1",
+            "icon": "https://mspoweruser.com/wp-content/uploads/2020/10/Microsoft-Bing-logo.jpg",
             "summary": "bing"
           },
           {
