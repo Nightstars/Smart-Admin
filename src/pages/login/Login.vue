@@ -3,20 +3,35 @@
     <div class="top">
       <div class="header">
         <img alt="logo" class="logo" src="@/assets/img/logo.png" />
-        <span class="title">{{systemName}}</span>
+        <span class="title" style="color: #13c2c2">{{systemName}}</span>
       </div>
-      <div class="desc">Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+      <div class="desc"><h2 style="color: #13c2c2">An easier way to manage everything online</h2></div>
     </div>
     <div class="login">
       <a-form @submit="onSubmit" :form="form">
         <a-tabs size="large" :tabBarStyle="{textAlign: 'center'}" style="padding: 0 2px;">
+          <a-tab-pane tab="扫码登录" key="2">
+            <br>
+            <center>
+              <h4>使用SmartAdmin app 扫码</h4>
+              <br>
+              <img
+                  src="../../assets/img/36__374e494d82cfeaa319c285d3ea0adbfe_a15cc2e9916c3ed957e26b019a4c2656.png"
+                  alt=""
+                  width="200"
+                  height="200"
+                  style="margin-bottom: 20px;"
+              >
+            </center>
+          </a-tab-pane>
+
           <a-tab-pane tab="账户密码登录" key="1">
             <a-alert type="error" :closable="true" v-if="error" :message="error" @close='onClose' showIcon style="margin-bottom: 24px;" />
             <a-form-item>
               <a-input
                 autocomplete="autocomplete"
                 size="large"
-                placeholder="admin"
+                placeholder="账户"
                 v-decorator="['name', {rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]"
               >
                 <a-icon slot="prefix" type="user" />
@@ -25,7 +40,7 @@
             <a-form-item>
               <a-input
                 size="large"
-                placeholder="888888"
+                placeholder="密码"
                 autocomplete="autocomplete"
                 type="password"
                 v-decorator="['password', {rules: [{ required: true, message: '请输入密码', whitespace: true}]}]"
@@ -34,25 +49,25 @@
               </a-input>
             </a-form-item>
           </a-tab-pane>
-          <a-tab-pane tab="手机号登录" key="2">
-            <a-form-item>
-              <a-input size="large" placeholder="mobile number" >
-                <a-icon slot="prefix" type="mobile" />
-              </a-input>
-            </a-form-item>
-            <a-form-item>
-              <a-row :gutter="8" style="margin: 0 -4px">
-                <a-col :span="16">
-                  <a-input size="large" placeholder="captcha">
-                    <a-icon slot="prefix" type="mail" />
-                  </a-input>
-                </a-col>
-                <a-col :span="8" style="padding-left: 4px">
-                  <a-button style="width: 100%" class="captcha-button" size="large">获取验证码</a-button>
-                </a-col>
-              </a-row>
-            </a-form-item>
-          </a-tab-pane>
+<!--          <a-tab-pane tab="手机号登录" key="2">-->
+<!--            <a-form-item>-->
+<!--              <a-input size="large" placeholder="mobile number" >-->
+<!--                <a-icon slot="prefix" type="mobile" />-->
+<!--              </a-input>-->
+<!--            </a-form-item>-->
+<!--            <a-form-item>-->
+<!--              <a-row :gutter="8" style="margin: 0 -4px">-->
+<!--                <a-col :span="16">-->
+<!--                  <a-input size="large" placeholder="captcha">-->
+<!--                    <a-icon slot="prefix" type="mail" />-->
+<!--                  </a-input>-->
+<!--                </a-col>-->
+<!--                <a-col :span="8" style="padding-left: 4px">-->
+<!--                  <a-button style="width: 100%" class="captcha-button" size="large">获取验证码</a-button>-->
+<!--                </a-col>-->
+<!--              </a-row>-->
+<!--            </a-form-item>-->
+<!--          </a-tab-pane>-->
         </a-tabs>
         <div>
           <a-checkbox :checked="true" >自动登录</a-checkbox>
@@ -61,13 +76,13 @@
         <a-form-item>
           <a-button :loading="logging" style="width: 100%;margin-top: 24px" size="large" htmlType="submit" type="primary">登录</a-button>
         </a-form-item>
-        <div>
-          其他登录方式
-          <a-icon class="icon" type="alipay-circle" />
-          <a-icon class="icon" type="taobao-circle" />
-          <a-icon class="icon" type="weibo-circle" />
-          <router-link style="float: right" to="/dashboard/workplace" >注册账户</router-link>
-        </div>
+<!--        <div>-->
+<!--          其他登录方式-->
+<!--          <a-icon class="icon" type="alipay-circle" />-->
+<!--          <a-icon class="icon" type="taobao-circle" />-->
+<!--          <a-icon class="icon" type="weibo-circle" />-->
+<!--          <router-link style="float: right" to="/dashboard/workplace" >注册账户</router-link>-->
+<!--        </div>-->
       </a-form>
     </div>
   </common-layout>
@@ -77,7 +92,7 @@
 import CommonLayout from '@/layouts/CommonLayout'
 import {login, getRoutesConfig} from '@/services/user'
 import {setAuthorization} from '@/utils/request'
-import {loadRoutes} from '@/utils/routerUtil'
+// import {loadRoutes} from '@/utils/routerUtil'
 import {mapMutations} from 'vuex'
 
 export default {
@@ -112,15 +127,18 @@ export default {
       this.logging = false
       const loginRes = res.data
       if (loginRes.code >= 0) {
-        const {user, permissions, roles} = loginRes.data
+        // const {user, permissions, roles} = loginRes.data
+        const {user} = loginRes.data
+        console.log(loginRes)
         this.setUser(user)
-        this.setPermissions(permissions)
-        this.setRoles(roles)
+        //this.setPermissions(permissions)
+        //this.setRoles(roles)
         setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt)})
         // 获取路由配置
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
-          loadRoutes(routesConfig)
+          console.log(routesConfig)
+          //loadRoutes(routesConfig)
           this.$router.push('/demo')
           this.$message.success(loginRes.message, 3)
         })

@@ -34,6 +34,21 @@ const options = {
           },
           component: () => import('@/pages/demo')
         },
+          {
+              path: 'myapps',
+              name: '应用中心',
+              meta: {
+                  icon: 'appstore',
+              },
+              component: BlankView,
+              children: [
+                  {
+                      path: 'apps',
+                      name: '我的应用',
+                      component: () => import('@/pages/myapps'),
+                  }
+              ]
+          },
         {
           path: 'parent1',
           name: '父级路由1',
