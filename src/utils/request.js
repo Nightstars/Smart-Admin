@@ -33,11 +33,11 @@ const METHOD = {
 async function request(url, method, params, config) {
   switch (method) {
     case METHOD.GET:
-      return axios.get(url, {params, ...config})
+      return await axios.get(url, {params, ...config})
     case METHOD.POST:
-      return axios.post(url, params, config)
+      return await axios.post(url, params, config)
     default:
-      return axios.get(url, {params, ...config})
+      return await axios.get(url, {params, ...config})
   }
 }
 

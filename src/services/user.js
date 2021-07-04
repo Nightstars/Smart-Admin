@@ -9,10 +9,11 @@ import {request, METHOD, removeAuthorization} from '@/utils/request'
  */
 export async function login(name, password) {
   console.log(LOGIN)
-  return request(LOGIN, METHOD.POST, {
-    name: name,
+  let res=await request(LOGIN, METHOD.POST, {
+    userName: name,
     password: password
   })
+  return res
 }
 
 export async function getRoutesConfig() {

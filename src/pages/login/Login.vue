@@ -101,6 +101,7 @@ export default {
   data () {
     return {
       logging: false,
+      validated: false,
       error: '',
       form: this.$form.createForm(this)
     }
@@ -112,38 +113,44 @@ export default {
   },
   methods: {
     ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
-    onSubmit (e) {
+    async onSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err) => {
         if (!err) {
-          this.logging = true
-          const name = this.form.getFieldValue('name')
-          const password = this.form.getFieldValue('password')
-          login(name, password).then(this.afterLogin)
+          this.validated=true
         }
       })
+      if(this.validated){
+        this.logging = true
+        const name = this.form.getFieldValue('name')
+        const password = this.form.getFieldValue('password')
+        let res=await  login(name, password)
+        this.afterLogin(res)
+      }
     },
     afterLogin(res) {
       this.logging = false
       const loginRes = res.data
-      if (loginRes.code >= 0) {
+      console.log(loginRes)
+      console.log(new Date(loginRes.data.expireAt))
+      if (loginRes.Code >= 0) {
         // const {user, permissions, roles} = loginRes.data
         const {user} = loginRes.data
-        console.log(loginRes)
         this.setUser(user)
         //this.setPermissions(permissions)
         //this.setRoles(roles)
-        setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireAt)})
+        // setAuthorization({token: loginRes.data.accessToken, expireAt: new Date(loginRes.data.expireAt)})
+        setAuthorization({token: loginRes.data.accessToken, expireAt: new Date(new Date().getTime() + 30 * 60 * 1000)})
         // 获取路由配置
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
           console.log(routesConfig)
           //loadRoutes(routesConfig)
           this.$router.push('/myapps/apps')
-          this.$message.success(loginRes.message, 3)
+          this.$message.success(loginRes.msg, 3)
         })
       } else {
-        this.error = loginRes.message
+        this.error = loginRes.msg
       }
     },
     onClose() {
