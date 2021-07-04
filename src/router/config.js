@@ -35,6 +35,15 @@ const options = {
           },
           component: () => import('@/pages/demo')
         },
+        {
+          path: 'dashboard',
+          name: 'Dashboard',
+          meta: {
+            icon: 'dashboard',
+            invisible: false
+          },
+          component: () => import('@/pages/dashboard')
+        },
           {
               path: 'myapps',
               name: '应用中心',

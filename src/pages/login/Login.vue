@@ -85,11 +85,21 @@
 <!--        </div>-->
       </a-form>
     </div>
+
+    <div v-show="visible" class='popContainer'>
+      <div class="main">
+<!--        <img  src="https://cdn.dribbble.com/users/46633/screenshots/1185889/civchoice-loading-gifs800x600.gif" width="200" height="150" alt="" >-->
+<!--        <img  src="https://cdn.dribbble.com/users/846207/screenshots/5568468/gradient-circle-loading.gif" width="200" height="150" alt="" >-->
+        <img  src="https://i.gifer.com/embedded/download/2zGr.gif" width="218" height="300" alt="" >
+      </div>
+    </div>
+
   </common-layout>
 </template>
 
 <script>
 import CommonLayout from '@/layouts/CommonLayout'
+// import {login, getRoutesConfig} from '@/services/user'
 import {login, getRoutesConfig} from '@/services/user'
 import {setAuthorization} from '@/utils/request'
 // import {loadRoutes} from '@/utils/routerUtil'
@@ -101,7 +111,7 @@ export default {
   data () {
     return {
       logging: false,
-      validated: false,
+      visible: false,
       error: '',
       form: this.$form.createForm(this)
     }
@@ -117,36 +127,31 @@ export default {
       e.preventDefault()
       this.form.validateFields((err) => {
         if (!err) {
-          this.validated=true
+          this.logging = true
+          const name = this.form.getFieldValue('name')
+          const password = this.form.getFieldValue('password')
+          this.visible = true
+          login(name, password).then(res=>this.afterLogin(res))
         }
       })
-      if(this.validated){
-        this.logging = true
-        const name = this.form.getFieldValue('name')
-        const password = this.form.getFieldValue('password')
-        let res=await  login(name, password)
-        this.afterLogin(res)
-      }
     },
     afterLogin(res) {
       this.logging = false
       const loginRes = res.data
-      console.log(loginRes)
-      console.log(new Date(loginRes.data.expireAt))
-      if (loginRes.Code >= 0) {
+      if (loginRes.success) {
         // const {user, permissions, roles} = loginRes.data
         const {user} = loginRes.data
         this.setUser(user)
         //this.setPermissions(permissions)
         //this.setRoles(roles)
-        // setAuthorization({token: loginRes.data.accessToken, expireAt: new Date(loginRes.data.expireAt)})
-        setAuthorization({token: loginRes.data.accessToken, expireAt: new Date(new Date().getTime() + 30 * 60 * 1000)})
+        setAuthorization({token: loginRes.data.accessToken, expireAt: new Date(loginRes.data.expireAt)})
         // 获取路由配置
         getRoutesConfig().then(result => {
           const routesConfig = result.data.data
           console.log(routesConfig)
           //loadRoutes(routesConfig)
-          this.$router.push('/myapps/apps')
+          this.visible = false
+          this.$router.push('/dashboard')
           this.$message.success(loginRes.msg, 3)
         })
       } else {
@@ -155,7 +160,8 @@ export default {
     },
     onClose() {
       this.error = false
-    }
+    },
+
   }
 }
 </script>
@@ -216,4 +222,32 @@ export default {
       }
     }
   }
+
+  .popContainer{
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    > img{
+      //width: 150px;
+      //height: 150px;
+      object-fit: contain
+    }
+  }
+
+  .main{
+    text-align: center; /*让div内部文字居中*/
+    width: 218px;
+    height: 300px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
 </style>

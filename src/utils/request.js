@@ -42,6 +42,19 @@ async function request(url, method, params, config) {
 }
 
 /**
+ * axios请求
+ * @param url 请求地址
+ * @param method {METHOD} http method
+ * @param params 请求参数
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+async function Post(url, params) {
+  let res=await axios.post(url, params)
+  return res
+}
+
+
+/**
  * 设置认证信息
  * @param auth {Object}
  * @param authType {AUTH_TYPE} 认证类型，默认：{AUTH_TYPE.BEARER}
@@ -104,6 +117,7 @@ function checkAuthorization(authType = AUTH_TYPE.BEARER) {
  */
 function loadInterceptors(interceptors, options) {
   const {request, response} = interceptors
+
   // 加载请求拦截器
   request.forEach(item => {
     let {onFulfilled, onRejected} = item
@@ -118,6 +132,7 @@ function loadInterceptors(interceptors, options) {
       error => onRejected(error, options)
     )
   })
+
   // 加载响应拦截器
   response.forEach(item => {
     let {onFulfilled, onRejected} = item
@@ -160,6 +175,7 @@ export {
   METHOD,
   AUTH_TYPE,
   request,
+  Post,
   setAuthorization,
   removeAuthorization,
   checkAuthorization,

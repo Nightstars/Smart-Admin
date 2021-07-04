@@ -8,13 +8,13 @@ import {request, METHOD, removeAuthorization} from '@/utils/request'
  * @returns {Promise<AxiosResponse<T>>}
  */
 export async function login(name, password) {
-  console.log(LOGIN)
   let res=await request(LOGIN, METHOD.POST, {
     userName: name,
     password: password
   })
   return res
 }
+
 
 export async function getRoutesConfig() {
   return request(ROUTES, METHOD.GET)
@@ -32,5 +32,5 @@ export function logout() {
 export default {
   login,
   logout,
-  getRoutesConfig
+  getRoutesConfig,
 }
