@@ -1,5 +1,7 @@
 <template>
   <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+    <a-spin :spinning="spinning" size="large" tip="Loading..." style="margin-top: 150px;">
+    </a-spin>
     <a-row :gutter="[16, { xs: 8, sm: 16, md: 24, lg: 32 }]">
 
       <a-col
@@ -18,11 +20,11 @@
                   class="margin-top-sm"
               />
             </div>
-                <a-tag color="#2db7f5" class="margin-top">
-                  {{ item.name }}
-                </a-tag>
+            <a-tag color="#2db7f5" class="margin-top">
+              {{ item.name }}
+            </a-tag>
           </div>
-          </a>
+        </a>
       </a-col>
 
     </a-row>
@@ -31,12 +33,17 @@
 
 <script>
   import {mapState} from 'vuex'
+  import {getAll} from '@/services/app'
+
   export default {
     name: 'Myapps',
     i18n: require('./i18n'),
     data() {
       return {
-        apps: [
+        apps: [],
+        spinning: false,
+        indicator: <a-icon type="loading" style="font-size: 160px" spin />,
+        app1: [
           {
             "id": 28,
             "name": "Bing",
@@ -263,7 +270,29 @@
       desc() {
         return this.$t('description')
       }
+    },
+
+    async created() {
+       await this.getData()
+    },
+
+    methods: {
+      async getData () {
+          this.spinning = !this.spinning
+          await getAll(`pageIndex=1&pageSize=50&name=`).then(res=>this.requestAfter(res))
+      },
+      requestAfter (res) {
+        let data=res.data
+        if (data.success) {
+          console.log(data.data)
+          this.apps=data.data
+        } else {
+          this.error = data.msg
+        }
+        this.spinning = !this.spinning
+      }
     }
+
   }
 </script>
 

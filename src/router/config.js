@@ -56,7 +56,17 @@ const options = {
                       path: 'apps',
                       name: '我的应用',
                       component: () => import('@/pages/myapps'),
-                  }
+                  },
+                {
+                  path: 'apps-add',
+                  name: '添加应用',
+                  component: () => import('@/pages/myapps/add'),
+                },
+                {
+                  path: 'apps-mgr',
+                  name: '应用管理',
+                  component: () => import('@/pages/myapps/mgr'),
+                }
               ]
           },
         {

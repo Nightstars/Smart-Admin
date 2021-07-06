@@ -139,11 +139,10 @@ export default {
       this.logging = false
       const loginRes = res.data
       if (loginRes.success) {
-        // const {user, permissions, roles} = loginRes.data
-        const {user} = loginRes.data
+        const {user, permissions, roles} = loginRes.data
         this.setUser(user)
-        //this.setPermissions(permissions)
-        //this.setRoles(roles)
+        this.setPermissions(permissions)
+        this.setRoles(roles)
         setAuthorization({token: loginRes.data.accessToken, expireAt: new Date(loginRes.data.expireAt)})
         // 获取路由配置
         getRoutesConfig().then(result => {
