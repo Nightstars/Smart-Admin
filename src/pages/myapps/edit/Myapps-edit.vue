@@ -37,10 +37,10 @@
 </template>
 <script>
 import {mapState} from 'vuex'
-import {add} from '@/services/app'
+import {edit, get} from '@/services/app'
 
 export default {
-  name: 'MyappsAdd',
+  name: 'MyappsEdit',
   i18n: require('./i18n'),
   data() {
 
@@ -89,6 +89,10 @@ export default {
     };
   },
 
+  async created () {
+    await get(this.$route.params.seqNo).then(res=>this.init(res))
+  },
+
   computed: {
     ...mapState('setting', ['pageMinHeight']),
     // desc() {
@@ -109,7 +113,7 @@ export default {
 
       if (this.validated) {
         this.showLoading=true;
-        await add(this.appForm).then(res=>this.requestAfter(res))
+        await edit(this.appForm).then(res=>this.requestAfter(res))
       }
     },
 
@@ -117,11 +121,18 @@ export default {
       let data=res.data
       if (data.success) {
         this.$message.success(data.msg, 2)
-        this.resetForm('appForm')
       } else {
         this.error = data.msg
       }
       this.showLoading=false
+    },
+
+    init (res) {
+      if (res.data.success) {
+        this.appForm=res.data.data
+      } else {
+        this.error = res.data.msg
+      }
     },
 
     resetForm(formName) {

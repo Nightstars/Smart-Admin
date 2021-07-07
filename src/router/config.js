@@ -44,31 +44,47 @@ const options = {
           },
           component: () => import('@/pages/dashboard')
         },
-          {
-              path: 'myapps',
-              name: '应用中心',
-              meta: {
-                  icon: 'appstore',
-              },
-              component: BlankView,
-              children: [
-                  {
-                      path: 'apps',
-                      name: '我的应用',
-                      component: () => import('@/pages/myapps'),
-                  },
-                {
-                  path: 'apps-add',
-                  name: '添加应用',
-                  component: () => import('@/pages/myapps/add'),
-                },
-                {
-                  path: 'apps-mgr',
-                  name: '应用管理',
-                  component: () => import('@/pages/myapps/mgr'),
-                }
-              ]
+        {
+          path: 'myapps',
+          name: '应用中心',
+          meta: {
+              icon: 'appstore',
           },
+          component: PageView,
+          children: [
+            {
+                path: 'apps',
+                name: '我的应用',
+                component: () => import('@/pages/myapps'),
+            },
+            {
+              path: 'apps-add',
+              name: '添加应用',
+              component: () => import('@/pages/myapps/add'),
+            },
+            {
+              path: 'apps-mgr',
+              name: '应用管理',
+              component: () => import('@/pages/myapps/mgr'),
+            },
+            {
+              path: 'apps-edit/:seqNo',
+              name: '修改应用',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/myapps/edit'),
+            },
+            {
+              path: 'apps-detail/:seqNo',
+              name: '应用详情',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/myapps/detail'),
+            }
+          ]
+        },
         {
           path: 'parent1',
           name: '父级路由1',

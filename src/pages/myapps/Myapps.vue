@@ -267,9 +267,9 @@
     },
     computed: {
       ...mapState('setting', ['pageMinHeight']),
-      desc() {
-        return this.$t('description')
-      }
+      // desc() {
+      //   return this.$t('description')
+      // }
     },
 
     async created() {
@@ -281,6 +281,7 @@
           this.spinning = !this.spinning
           await getAll(`pageIndex=1&pageSize=50&name=`).then(res=>this.requestAfter(res))
       },
+
       requestAfter (res) {
         let data=res.data
         if (data.success) {

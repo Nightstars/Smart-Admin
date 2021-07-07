@@ -48,7 +48,7 @@ export default {
     dataSource: Array,
     rowKey: {
       type: [String, Function],
-      default: 'key'
+      default: 'seqNo'
     },
     pagination: {
       type: [Object, Boolean],

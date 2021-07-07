@@ -10,28 +10,28 @@
                   :labelCol="{span: 7}"
                   :wrapperCol="{span: 16, offset: 1}"
               >
-                <a-input placeholder="请输入" />
+                <a-input v-model="appName" placeholder="请输入" />
               </a-form-item>
             </a-col>
           </a-row>
         </div>
         <div style="text-align: center;margin: 0 auto 25px;">
-          <a-button type="primary">查询</a-button>
-          <a-button style="margin-left: 8px">重置</a-button>
+          <a-button type="primary" @click="getData()">查询</a-button>
+          <a-button style="margin-left: 8px" @click="reset()">重置</a-button>
         </div>
       </a-form>
     </div>
     <div>
       <a-space class="operator">
-        <a-button @click="addNew" type="primary">新建</a-button>
+        <a-button @click="addNew" type="primary" hidden>新建</a-button>
       </a-space>
       <standard-table
           :columns="columns"
           :dataSource="dataSource"
           :selectedRows.sync="selectedRows"
-          bordered="true"
+          bordered="false"
       >
-        <div slot="description" slot-scope="{text}">
+        <div slot="name" slot-scope="{text}">
           {{text}}
         </div>
 
@@ -48,24 +48,19 @@
         </div>
 
         <div slot="action" slot-scope="{text, record}">
-          <router-link :to="`/list/query/detail/${record.key}`" style="margin-right: 8px;">详情</router-link>
-          <a style="margin-right: 8px;">
-            <a-icon type="edit"/>编辑
-          </a>
+          <router-link :to="`/myapps/apps-detail/${record.seqNo}`" style="margin-right: 8px;">详情</router-link>
+          <router-link :to="`/myapps/apps-edit/${record.seqNo}`" style="margin-right: 8px;"><a-icon type="edit"/>编辑</router-link>
           <a-popconfirm
               title="确定删除吗?"
               ok-text="确定"
               cancel-text="我再想想"
-              @confirm="confirm(record.key)"
+              @confirm="confirm(record.seqNo)"
           >
             <a>
               <a-icon type="delete" />删除
             </a>
           </a-popconfirm>
         </div>
-        <template slot="statusTitle">
-          <a-icon @click.native="onStatusTitleClick" type="info-circle" />
-        </template>
       </standard-table>
     </div>
   </a-card>
@@ -73,105 +68,92 @@
 
 <script>
 import StandardTable from '@/components/table/StandardTable'
+import {getAll,remove} from '@/services/app'
+
 const columns = [
   {
-    title: '序号',
-    dataIndex: 'no',
-    ellipsis: true,
-    // width: 70
-  },
-  {
     title: '应用名称',
-    dataIndex: 'description',
+    dataIndex: 'name',
     ellipsis: true,
-    scopedSlots: { customRender: 'description' }
+    scopedSlots: { customRender: 'name' }
   },
   {
     title: 'Url',
-    dataIndex: 'callNo',
+    dataIndex: 'url',
     ellipsis: true,
     scopedSlots: { customRender: 'url' }
   },
   {
     title: 'Icon',
-    dataIndex: 'status',
+    dataIndex: 'icon',
     needTotal: false,
     ellipsis: true,
-    // slots: {title: 'statusTitle'}
     scopedSlots: { customRender: 'icon' }
   },
   {
     title: '描述',
-    dataIndex: 'description',
+    dataIndex: 'summary',
     ellipsis: true,
     scopedSlots: { customRender: 'summary' }
   },
   {
-    title: '更新时间',
-    dataIndex: 'updatedAt',
-    sorter: true,
-    ellipsis: true,
-    // width: 110
-  },
-  {
     title: '操作',
-    fixed: 'right',
     scopedSlots: { customRender: 'action' },
   }
 ]
-
-const dataSource = []
-
-for (let i = 0; i < 100; i++) {
-  dataSource.push({
-    key: i,
-    no: 'NO ' + i,
-    description: '这是一段很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长的描述',
-    callNo: Math.floor(Math.random() * 1000),
-    status: Math.floor(Math.random() * 10) % 4,
-    updatedAt: '2018-07-26'
-  })
-}
 
 export default {
   name: 'Myapps-mgr',
   components: {StandardTable},
   data () {
     return {
+      appName: '',
       columns: columns,
-      dataSource: dataSource,
+      dataSource: [],
       selectedRows: []
     }
   },
   // authorize: {
   //   deleteRecord: 'delete'
   // },
+
+  async created() {
+    await this.getData()
+  },
+
   methods: {
-    deleteRecord(key) {
-      this.dataSource = this.dataSource.filter(item => item.key !== key)
-      this.selectedRows = this.selectedRows.filter(item => item.key !== key)
+    async getData () {
+      await getAll(`pageIndex=1&pageSize=1000&name=${this.appName}`).then(res=>this.requestAfter(res))
     },
 
-    remove () {
-      this.dataSource = this.dataSource.filter(item => this.selectedRows.findIndex(row => row.key === item.key) === -1)
-      this.selectedRows = []
+    requestAfter (res) {
+      if (res.data.success) {
+        this.dataSource=res.data.data
+      } else {
+        this.error = res.data.msg
+      }
+    },
+
+    async remove (res) {
+      if(res.data.success){
+        await this.getData()
+        this.$message.success(res.data.msg)
+      }else{
+        this.error=res.data.msg
+      }
     },
 
     addNew () {
-      this.dataSource.unshift({
-        key: this.dataSource.length,
-        no: 'NO ' + this.dataSource.length,
-        description: '这是一段描述',
-        callNo: Math.floor(Math.random() * 1000),
-        status: Math.floor(Math.random() * 10) % 4,
-        updatedAt: '2018-07-26'
-      })
+      console.log("add")
     },
 
-    confirm(key) {
-      this. deleteRecord(key)
-      this.$message.success('删除成功');
+    async confirm(seqNo) {
+      await remove(seqNo).then(res=>this.remove(res))
     },
+
+    reset () {
+      this.appName=''
+    }
 
   }
 }
