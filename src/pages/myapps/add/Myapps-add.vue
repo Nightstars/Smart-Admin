@@ -4,19 +4,19 @@
       <a-form-model ref="appForm" :model="appForm" :rules="rules" v-bind="layout">
 
         <a-form-model-item has-feedback prop="name" :label="$t('name')">
-          <a-input v-model="appForm.name" :placeholder="$t('nameInput')" autocomplete="off" maxLength="255"/>
+          <a-input v-model="appForm.name" :placeholder="$t('nameInput')" autocomplete="off" :maxLength="num255"/>
         </a-form-model-item>
 
         <a-form-model-item has-feedback prop="url" :label="$t('url')">
-          <a-input v-model="appForm.url" :placeholder="$t('urlInput')" autocomplete="off" maxLength="512"/>
+          <a-input v-model="appForm.url" :placeholder="$t('urlInput')" autocomplete="off" :maxLength="num512"/>
         </a-form-model-item>
 
         <a-form-model-item has-feedback prop="icon" :label="$t('icon')">
-          <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" maxLength="512"/>
+          <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" :maxLength="num512"/>
         </a-form-model-item>
 
         <a-form-model-item has-feedback prop="summary" :label="$t('summary')">
-          <a-textarea rows="4" :placeholder="$t('summaryInput')" v-model="appForm.summary" maxLength="512"/>
+          <a-textarea rows="4" :placeholder="$t('summaryInput')" v-model="appForm.summary" :maxLength="num512"/>
         </a-form-model-item>
 
         <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }" style="text-align: center">
@@ -86,6 +86,8 @@ export default {
       },
       validated: false,
       showLoading: false,
+      num255: 255,
+      num512: 512
     };
   },
 

@@ -1,37 +1,39 @@
 <template>
   <div>
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false" >
-      <a-form-model ref="appForm" :model="appForm" :rules="rules" v-bind="layout">
+      <a-spin :spinning="spinning" size="large" tip="Loading...">
+        <a-form-model ref="appForm" :model="appForm" :rules="rules" v-bind="layout" >
 
-        <a-form-model-item has-feedback prop="name" :label="$t('name')">
-          <a-input v-model="appForm.name" :placeholder="$t('nameInput')" autocomplete="off" maxLength="255"/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="name" :label="$t('name')">
+            <a-input v-model="appForm.name" :placeholder="$t('nameInput')" autocomplete="off" :maxLength="num255"/>
+          </a-form-model-item>
 
-        <a-form-model-item has-feedback prop="url" :label="$t('url')">
-          <a-input v-model="appForm.url" :placeholder="$t('urlInput')" autocomplete="off" maxLength="512"/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="url" :label="$t('url')">
+            <a-input v-model="appForm.url" :placeholder="$t('urlInput')" autocomplete="off" :maxLength="num512"/>
+          </a-form-model-item>
 
-        <a-form-model-item has-feedback prop="icon" :label="$t('icon')">
-          <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" maxLength="512"/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="icon" :label="$t('icon')">
+            <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" :maxLength="num512"/>
+          </a-form-model-item>
 
-        <a-form-model-item has-feedback prop="summary" :label="$t('summary')">
-          <a-textarea rows="4" :placeholder="$t('summaryInput')" v-model="appForm.summary" maxLength="512"/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="summary" :label="$t('summary')">
+            <a-textarea rows="4" :placeholder="$t('summaryInput')" v-model="appForm.summary" :maxLength="num512"/>
+          </a-form-model-item>
 
-        <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }" style="text-align: center">
-          <a-button type="primary"
-                    @click="submitForm('appForm')"
-                    :loading="showLoading"
-                    :readnoly="showLoading"
-          >{{$t('submit')}}</a-button>
-          <a-button style="margin-left: 10px"
-                    @click="resetForm('appForm')"
-                    :disabled="showLoading"
-          >{{$t('reset')}}</a-button>
-        </a-form-model-item>
+          <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }" style="text-align: center">
+            <a-button type="primary"
+                      @click="submitForm('appForm')"
+                      :loading="showLoading"
+                      :readnoly="showLoading"
+            >{{$t('submit')}}</a-button>
+            <a-button style="margin-left: 10px"
+                      @click="resetForm('appForm')"
+                      :disabled="showLoading"
+            >{{$t('reset')}}</a-button>
+          </a-form-model-item>
 
-      </a-form-model>
+        </a-form-model>
+      </a-spin>
     </a-card>
   </div>
 </template>
@@ -86,11 +88,15 @@ export default {
       },
       validated: false,
       showLoading: false,
+      num255: 255,
+      num512: 512,
+      spinning: true
     };
   },
 
   async created () {
     await get(this.$route.params.seqNo).then(res=>this.init(res))
+    this.spinning=false;
   },
 
   computed: {

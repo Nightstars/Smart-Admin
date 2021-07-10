@@ -1,25 +1,27 @@
 <template>
   <div>
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false" >
-      <a-form-model ref="appForm" :model="appForm" v-bind="layout">
+      <a-spin :spinning="spinning" size="large" tip="Loading...">
+        <a-form-model ref="appForm" :model="appForm" v-bind="layout">
 
-        <a-form-model-item has-feedback prop="name" :label="$t('name')">
-          <a-input v-model="appForm.name" :placeholder="$t('nameInput')" autocomplete="off" disabled/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="name" :label="$t('name')">
+            <a-input v-model="appForm.name" :placeholder="$t('nameInput')" autocomplete="off" disabled/>
+          </a-form-model-item>
 
-        <a-form-model-item has-feedback prop="url" :label="$t('url')">
-          <a-input v-model="appForm.url" :placeholder="$t('urlInput')" autocomplete="off" disabled/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="url" :label="$t('url')">
+            <a-input v-model="appForm.url" :placeholder="$t('urlInput')" autocomplete="off" disabled/>
+          </a-form-model-item>
 
-        <a-form-model-item has-feedback prop="icon" :label="$t('icon')">
-          <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" disabled/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="icon" :label="$t('icon')">
+            <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" disabled/>
+          </a-form-model-item>
 
-        <a-form-model-item has-feedback prop="summary" :label="$t('summary')">
-          <a-textarea rows="4" :placeholder="$t('summaryInput')" disabled v-model="appForm.summary"/>
-        </a-form-model-item>
+          <a-form-model-item has-feedback prop="summary" :label="$t('summary')">
+            <a-textarea rows="4" :placeholder="$t('summaryInput')" disabled v-model="appForm.summary"/>
+          </a-form-model-item>
 
-      </a-form-model>
+        </a-form-model>
+      </a-spin>
     </a-card>
   </div>
 </template>
@@ -45,11 +47,13 @@ export default {
       },
       validated: false,
       showLoading: false,
+      spinning: true
     };
   },
 
   async created () {
     await get(this.$route.params.seqNo).then(res=>this.init(res))
+    this.spinning=false
   },
 
   computed: {

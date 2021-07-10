@@ -9,7 +9,7 @@
     </div>
     <div class="login">
       <a-form @submit="onSubmit" :form="form">
-        <a-tabs size="large" :tabBarStyle="{textAlign: 'center'}" style="padding: 0 2px;">
+        <a-tabs size="large" :tabBarStyle="{textAlign: 'center'}" style="padding: 0 2px;" @change="change">
           <a-tab-pane tab="扫码登录" key="2">
             <br>
             <center>
@@ -69,11 +69,11 @@
 <!--            </a-form-item>-->
 <!--          </a-tab-pane>-->
         </a-tabs>
-        <div>
+        <div :style="isQrcode?'display:none':''">
           <a-checkbox :checked="true" >自动登录</a-checkbox>
           <a style="float: right">忘记密码</a>
         </div>
-        <a-form-item>
+        <a-form-item :style="isQrcode?'display:none':''">
           <a-button :loading="logging" style="width: 100%;margin-top: 24px" size="large" htmlType="submit" type="primary">登录</a-button>
         </a-form-item>
 <!--        <div>-->
@@ -113,7 +113,8 @@ export default {
       logging: false,
       visible: false,
       error: '',
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      isQrcode: true
     }
   },
   computed: {
@@ -124,13 +125,14 @@ export default {
   methods: {
     ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
     async onSubmit (e) {
+      console.log("test")
       e.preventDefault()
       this.form.validateFields((err) => {
         if (!err) {
           this.logging = true
           const name = this.form.getFieldValue('name')
           const password = this.form.getFieldValue('password')
-          this.visible = true
+          //this.visible = true
           login(name, password).then(res=>this.afterLogin(res))
         }
       })
@@ -149,7 +151,7 @@ export default {
           const routesConfig = result.data.data
           console.log(routesConfig)
           //loadRoutes(routesConfig)
-          this.visible = false
+          //this.visible = false
           this.$router.push('/dashboard')
           this.$message.success(loginRes.msg, 3)
         })
@@ -160,6 +162,10 @@ export default {
     onClose() {
       this.error = false
     },
+
+    change (res) {
+      this.isQrcode = res === '2';
+    }
 
   }
 }
