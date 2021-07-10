@@ -29,7 +29,6 @@
           :columns="columns"
           :dataSource="dataSource"
           :selectedRows.sync="selectedRows"
-          bordered="false"
       >
         <div slot="name" slot-scope="{text}">
           {{text}}
