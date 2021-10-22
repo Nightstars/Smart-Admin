@@ -16,6 +16,14 @@
             <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" :maxLength="num512"/>
           </a-form-model-item>
 
+          <a-form-model-item has-feedback prop="tag" :label="$t('tag')">
+            <a-input v-model="appForm.tag" :placeholder="$t('tagInput')" autocomplete="off" :maxLength="num255"/>
+          </a-form-model-item>
+
+          <a-form-model-item has-feedback prop="weight" :label="$t('weight')">
+            <a-input v-model="appForm.weight" :placeholder="$t('weightInput')" autocomplete="off" :maxLength="num255"/>
+          </a-form-model-item>
+
           <a-form-model-item has-feedback prop="summary" :label="$t('summary')">
             <a-textarea rows="4" :placeholder="$t('summaryInput')" v-model="appForm.summary" :maxLength="num512"/>
           </a-form-model-item>
@@ -70,17 +78,26 @@ export default {
       }
     };
 
+    let validateNoRequire = (rule, value, callback) => {
+        callback()
+    };
+
     return {
       appForm: {
         name: '',
         url: '',
         icon: '',
-        summary: ''
+        summary: '',
+        tag: '',
+        weight: ''
       },
       rules: {
         name: [{ validator: validateName, trigger: 'change' }],
         url: [{ validator: validateUrl, trigger: 'change' }],
         icon: [{ validator: validateIcon, trigger: 'change' }],
+        tag: [{ validator: validateNoRequire, trigger: 'change' }],
+        weight: [{ validator: validateNoRequire, trigger: 'change' }],
+        summary: [{ validator: validateNoRequire, trigger: 'change' }]
       },
       layout: {
         labelCol: { span: 4 },

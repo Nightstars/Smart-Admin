@@ -16,6 +16,14 @@
             <a-input v-model="appForm.icon" :placeholder="$t('iconInput')" autocomplete="off" disabled/>
           </a-form-model-item>
 
+          <a-form-model-item has-feedback prop="tag" :label="$t('tag')">
+            <a-input v-model="appForm.tag" :placeholder="$t('tagInput')" autocomplete="off" disabled/>
+          </a-form-model-item>
+
+          <a-form-model-item has-feedback prop="weight" :label="$t('weight')">
+            <a-input v-model="appForm.weight" :placeholder="$t('weightInput')" autocomplete="off" disabled/>
+          </a-form-model-item>
+
           <a-form-model-item has-feedback prop="summary" :label="$t('summary')">
             <a-textarea rows="4" :placeholder="$t('summaryInput')" disabled v-model="appForm.summary"/>
           </a-form-model-item>
@@ -39,7 +47,9 @@ export default {
         name: '',
         url: '',
         icon: '',
-        summary: ''
+        summary: '',
+        tag: '',
+        weight: ''
       },
       layout: {
         labelCol: { span: 4 },
