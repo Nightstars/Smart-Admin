@@ -60,6 +60,9 @@ const options = {
             {
               path: 'apps-add',
               name: '添加应用',
+              meta: {
+                invisible: true
+              },
               component: () => import('@/pages/myapps/add'),
             },
             {

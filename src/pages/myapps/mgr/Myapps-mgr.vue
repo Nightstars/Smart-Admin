@@ -24,7 +24,7 @@
       </div>
       <div>
         <a-space class="operator">
-          <a-button @click="addNew" type="primary" hidden>新建</a-button>
+          <a-button @click="addNew" type="primary">新建</a-button>
         </a-space>
         <standard-table
             :columns="columns"
@@ -147,7 +147,7 @@ export default {
     },
 
     addNew () {
-      console.log("add")
+      this.$router.push({ path: '/myapps/apps-add' })
     },
 
     async confirm(seqNo) {
