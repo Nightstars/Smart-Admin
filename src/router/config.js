@@ -89,6 +89,50 @@ const options = {
           ]
         },
         {
+          path: 'finance-center',
+          name: '金融中心',
+          meta: {
+            icon: 'fund',
+          },
+          component: PageView,
+          children: [
+            {
+              path: 'finance-apps',
+              name: '金融应用',
+              component: () => import('@/pages/myapps'),
+            },
+            {
+              path: 'finance-apps-add',
+              name: '添加分组',
+              meta: {
+                invisible: false
+              },
+              component: () => import('@/pages/finance/financegroup/add'),
+            },
+            {
+              path: 'apps-mgr',
+              name: '应用管理',
+              component: () => import('@/pages/myapps/mgr'),
+            },
+            {
+              path: 'apps-edit/:seqNo',
+              name: '修改应用',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/myapps/edit'),
+            },
+            {
+              path: 'apps-detail/:seqNo',
+              name: '应用详情',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/myapps/detail'),
+            }
+          ]
+        },
+        {
           path: 'parent1',
           name: '父级路由1',
           meta: {
