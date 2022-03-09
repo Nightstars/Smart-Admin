@@ -6,7 +6,7 @@
         v-for="(item, index) in apps"
         :key="index"
     >
-      <a-row style="margin-top: 30px;">
+      <a-row style="margin-top: 30px;padding-left: 20px">
 
         <a-col
             class="gutter-row"
@@ -16,11 +16,11 @@
         </a-col>
       </a-row>
 
-      <a-row >
+      <a-row :gutter="[16,30]">
 
         <a-col
             class="gutter-row"
-            :span="6" :xs="12" :sm="8" :md="8" :lg="6" :xl="4"
+            :span="6" :xs="24" :sm="12" :md="12" :lg="8" :xl="6" :xxl="4"
             v-for="(app, cindex) in apps[index].financesApps"
             :key="cindex"
         >
