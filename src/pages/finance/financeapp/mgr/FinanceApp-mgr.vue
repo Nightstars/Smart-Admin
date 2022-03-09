@@ -7,11 +7,11 @@
             <a-row >
               <a-col :md="8" :sm="24" >
                 <a-form-item
-                    :label="$t('groupName')"
+                    :label="$t('appName')"
                     :labelCol="{span: 7}"
                     :wrapperCol="{span: 16, offset: 1}"
                 >
-                  <a-input v-model="groupName" :placeholder="$t('please_input')" />
+                  <a-input v-model="appName" :placeholder="$t('please_input')" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -31,21 +31,29 @@
             :dataSource="dataSource"
             :selectedRows.sync="selectedRows"
         >
-          <div slot="groupName" slot-scope="{text}">
+          <div slot="appName" slot-scope="{text}">
             {{text}}
           </div>
 
-          <div slot="groupWeight" slot-scope="{text}">
+          <div slot="appPath" slot-scope="{text}">
             {{text}}
           </div>
 
-          <div slot="groupDescription" slot-scope="{text}">
+          <div slot="appGroup" slot-scope="{text}">
+            {{text}}
+          </div>
+
+          <div slot="appWeight" slot-scope="{text}">
+            {{text}}
+          </div>
+
+          <div slot="appDescription" slot-scope="{text}">
             {{text}}
           </div>
 
           <div slot="action" slot-scope="{text, record}">
-            <router-link :to="`finance-group-details/${record.seqNo}`" style="margin-right: 8px;">{{ $t('details') }}</router-link>
-            <router-link :to="`finance-group-edit/${record.seqNo}`" style="margin-right: 8px;"><a-icon type="edit"/>
+            <router-link :to="`finance-app-details/${record.seqNo}`" style="margin-right: 8px;">{{ $t('details') }}</router-link>
+            <router-link :to="`finance-app-edit/${record.seqNo}`" style="margin-right: 8px;"><a-icon type="edit"/>
               {{ $t('edit') }}</router-link>
             <a-popconfirm
                 :title="$t('question')"
@@ -67,32 +75,46 @@
 
 <script>
 import StandardTable from '@/components/table/StandardTable/'
-import { financeGroupService } from '@/services/'
+import { financeAppService } from '@/services/'
 
+//region 表格列
 const columns = [
   {
     title: "名称",
-    dataIndex: 'groupName',
+    dataIndex: 'appName',
     ellipsis: true,
-    scopedSlots: { customRender: 'groupName' }
+    scopedSlots: { customRender: 'appName' }
+  },
+  {
+    title: "应用地址",
+    dataIndex: 'appPath',
+    ellipsis: true,
+    scopedSlots: { customRender: 'appPath' }
+  },
+  {
+    title: "组别",
+    dataIndex: 'appGroup',
+    ellipsis: true,
+    scopedSlots: { customRender: 'appGroup' }
   },
   {
     title: '权重',
-    dataIndex: 'groupWeight',
+    dataIndex: 'appWeight',
     ellipsis: true,
-    scopedSlots: { customRender: 'groupWeight' }
+    scopedSlots: { customRender: 'appWeight' }
   },
   {
     title: '描述',
-    dataIndex: 'groupDescription',
+    dataIndex: 'appDescription',
     ellipsis: true,
-    scopedSlots: { customRender: 'groupDescription' }
+    scopedSlots: { customRender: 'appDescription' }
   },
   {
     title: '操作',
     scopedSlots: { customRender: 'action' },
   }
 ]
+//endregion
 
 export default {
   name: 'FinanceGroup-mgr',
@@ -100,7 +122,7 @@ export default {
   components: {StandardTable},
   data () {
     return {
-      groupName: '',
+      appName: '',
       columns: columns,
       dataSource: [],
       selectedRows: [],
@@ -111,16 +133,21 @@ export default {
   //   deleteRecord: 'delete'
   // },
 
+  //region 页面初始化
   async created() {
     await this.getData()
     this.spinning=false
   },
+  //endregion
 
   methods: {
+    // region Get Data
     async getData () {
-      await financeGroupService.getAll(`sid=1&groupName=${this.groupName}`).then(res=>this.requestAfter(res))
+      await financeAppService.getAll(`Sid=1&AppName=${this.appName}`).then(res=>this.requestAfter(res))
     },
+    //endregion
 
+    //region requestAfter
     requestAfter (res) {
       if (res.data.success) {
         this.dataSource=res.data.data
@@ -128,7 +155,9 @@ export default {
         this.error = res.data.msg
       }
     },
+    //endregion
 
+    //region remove
     async remove (res) {
       if(res.data.success){
         await this.getData()
@@ -137,23 +166,32 @@ export default {
         this.error=res.data.msg
       }
     },
+    //endregion
 
+    //region 新建
     addNew () {
-      this.$router.push({ path: 'finance-group-add' })
+      this.$router.push({ path: 'finance-app-add' })
     },
+    //endregion
 
+    //region 确认删除
     async confirm(seqNo) {
-      await financeGroupService.remove(seqNo).then(res=>this.remove(res))
+      await financeAppService.remove(seqNo).then(res=>this.remove(res))
     },
+    //endregion
 
+    //region 重置查询条件
     reset () {
-      this.groupName=''
+      this.appName=''
     }
+    //endregion
 
   }
 }
 </script>
 
+<!--region 样式-->
 <style lang="less" scoped>
-@import "src/pages/finance/financegroup/mgr/index";
+@import "./index";
 </style>
+<!--endregion-->

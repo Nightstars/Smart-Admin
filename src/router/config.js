@@ -1,6 +1,6 @@
-import TabsView from '@/layouts/tabs/TabsView'
-import BlankView from '@/layouts/BlankView'
-import PageView from '@/layouts/PageView'
+import TabsView from '@/layouts/tabs/TabsView/'
+import BlankView from '@/layouts/BlankView/'
+import PageView from '@/layouts/PageView/'
 
 // 路由配置
 const options = {
@@ -102,7 +102,7 @@ const options = {
               component: () => import('@/pages/myapps/'),
             },
             {
-              path: 'finance-apps-add',
+              path: 'finance-group-add',
               name: '添加分组',
               meta: {
                 invisible: true
@@ -129,6 +129,35 @@ const options = {
               path: 'finance-group-mgr',
               name: '分组管理',
               component: () => import('@/pages/finance/financegroup/mgr/'),
+            },
+            {
+              path: 'finance-app-add',
+              name: '添加应用',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/finance/financeapp/add/'),
+            },
+            {
+              path: 'finance-app-edit/:seqNo',
+              name: '修改应用',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/finance/financeapp/edit/'),
+            },
+            {
+              path: 'finance-app-details/:seqNo',
+              name: '应用详情',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/finance/financeapp/detail/'),
+            },
+            {
+              path: 'finance-app-mgr',
+              name: '应用管理',
+              component: () => import('@/pages/finance/financeapp/mgr/'),
             },
           ]
         },

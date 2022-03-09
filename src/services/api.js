@@ -7,4 +7,5 @@ module.exports = {
   ROUTES: `${BASE_URL}/routes`,
   APPS: `${BASE_URL}/api/MyApps`,//我的应用
   FINANCE_GROUP: `${BASE_URL}/api/FinanceGroup`, //金融分组
+  FINANCE_APP: `${BASE_URL}/api/FinanceApp`, //金融应用
 }
