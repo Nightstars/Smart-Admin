@@ -22,11 +22,16 @@ export async function edit(param) {
     return await request(`${FINANCE_APP}`, METHOD.PUT,param)
 }
 
+export async function getData(param) {
+    return await request(`${FINANCE_APP}/getData?${param}`, METHOD.GET)
+}
+
 export default {
     getAll,
     add,
     remove,
     get,
-    edit
+    edit,
+    getData,
 }
 

@@ -13,7 +13,11 @@
           </a-form-model-item>
 
           <a-form-model-item has-feedback prop="appGroup" :label="$t('appGroup')">
-            <a-input v-model="appForm.appGroup" :placeholder="$t('appGroupInput')" autocomplete="off" :maxLength="num255"/>
+            <a-select v-model="appForm.appGroup" placeholder="$t('appGroupInput')">
+              <a-select-option v-for="group in groups" :key="group.groupName">
+                {{ group.groupName }}
+              </a-select-option>
+            </a-select>
           </a-form-model-item>
 
           <a-form-model-item has-feedback prop="appWeight" :label="$t('appWeight')">
@@ -43,7 +47,7 @@
 </template>
 <script>
 import {mapState} from 'vuex'
-import {financeAppService} from '@/services/'
+import {financeAppService, financeGroupService} from '@/services/'
 
 export default {
   name: 'FinanceAppEdit',
@@ -101,12 +105,14 @@ export default {
       showLoading: false,
       num255: 255,
       num512: 512,
-      spinning: true
+      spinning: true,
+      groups: [],
     };
   },
 
   async created () {
     await financeAppService.get(this.$route.params.seqNo).then(res=>this.init(res))
+    await financeGroupService.getAll(`sid=1&groupName=`).then(res=>this.initRequestAfter(res))
     this.spinning=false;
   },
 
@@ -118,6 +124,14 @@ export default {
   },
 
   methods: {
+    initRequestAfter (res) {
+      if (res.data.success) {
+        this.groups=res.data.data
+      } else {
+        this.error = res.data.msg
+      }
+    },
+
     async submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {

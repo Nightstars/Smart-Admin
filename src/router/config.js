@@ -8,17 +8,17 @@ const options = {
     {
       path: '/login',
       name: '登录页',
-      component: () => import('@/pages/login')
+      component: () => import('@/pages/login/')
     },
     {
       path: '*',
       name: '404',
-      component: () => import('@/pages/exception/404'),
+      component: () => import('@/pages/exception/404/'),
     },
     {
       path: '/403',
       name: '403',
-      component: () => import('@/pages/exception/403'),
+      component: () => import('@/pages/exception/403/'),
     },
     {
       path: '/',
@@ -33,7 +33,7 @@ const options = {
             icon: 'file-ppt',
             invisible: true
           },
-          component: () => import('@/pages/demo')
+          component: () => import('@/pages/demo/')
         },
         {
           path: 'dashboard',
@@ -42,7 +42,7 @@ const options = {
             icon: 'dashboard',
             invisible: false
           },
-          component: () => import('@/pages/dashboard')
+          component: () => import('@/pages/dashboard/')
         },
         {
           path: 'myapps',
@@ -55,7 +55,7 @@ const options = {
             {
                 path: 'apps',
                 name: '我的应用',
-                component: () => import('@/pages/myapps'),
+                component: () => import('@/pages/myapps/'),
             },
             {
               path: 'apps-add',
@@ -63,12 +63,12 @@ const options = {
               meta: {
                 invisible: true
               },
-              component: () => import('@/pages/myapps/add'),
+              component: () => import('@/pages/myapps/add/'),
             },
             {
               path: 'apps-mgr',
               name: '应用管理',
-              component: () => import('@/pages/myapps/mgr'),
+              component: () => import('@/pages/myapps/mgr/'),
             },
             {
               path: 'apps-edit/:seqNo',
@@ -76,7 +76,7 @@ const options = {
               meta: {
                 invisible: true
               },
-              component: () => import('@/pages/myapps/edit'),
+              component: () => import('@/pages/myapps/edit/'),
             },
             {
               path: 'apps-detail/:seqNo',
@@ -84,7 +84,7 @@ const options = {
               meta: {
                 invisible: true
               },
-              component: () => import('@/pages/myapps/detail'),
+              component: () => import('@/pages/myapps/detail/'),
             }
           ]
         },
@@ -99,7 +99,7 @@ const options = {
             {
               path: 'finance-apps',
               name: '金融应用',
-              component: () => import('@/pages/myapps/'),
+              component: () => import('@/pages/finance/financeapp/home/'),
             },
             {
               path: 'finance-group-add',
