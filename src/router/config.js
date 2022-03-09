@@ -99,37 +99,37 @@ const options = {
             {
               path: 'finance-apps',
               name: '金融应用',
-              component: () => import('@/pages/myapps'),
+              component: () => import('@/pages/myapps/'),
             },
             {
               path: 'finance-apps-add',
               name: '添加分组',
               meta: {
-                invisible: false
+                invisible: true
               },
-              component: () => import('@/pages/finance/financegroup/add'),
+              component: () => import('@/pages/finance/financegroup/add/'),
             },
             {
-              path: 'apps-mgr',
-              name: '应用管理',
-              component: () => import('@/pages/myapps/mgr'),
-            },
-            {
-              path: 'apps-edit/:seqNo',
-              name: '修改应用',
+              path: 'finance-group-edit/:seqNo',
+              name: '修改分组',
               meta: {
                 invisible: true
               },
-              component: () => import('@/pages/myapps/edit'),
+              component: () => import('@/pages/finance/financegroup/edit/'),
             },
             {
-              path: 'apps-detail/:seqNo',
-              name: '应用详情',
+              path: 'finance-group-details/:seqNo',
+              name: '分组详情',
               meta: {
                 invisible: true
               },
-              component: () => import('@/pages/myapps/detail'),
-            }
+              component: () => import('@/pages/finance/financegroup/detail/'),
+            },
+            {
+              path: 'finance-group-mgr',
+              name: '分组管理',
+              component: () => import('@/pages/finance/financegroup/mgr/'),
+            },
           ]
         },
         {

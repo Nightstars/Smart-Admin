@@ -7,57 +7,55 @@
             <a-row >
               <a-col :md="8" :sm="24" >
                 <a-form-item
-                    label="$t('groupName')"
+                    :label="$t('groupName')"
                     :labelCol="{span: 7}"
                     :wrapperCol="{span: 16, offset: 1}"
                 >
-                  <a-input v-model="groupName" placeholder="$t('groupNameInput')" />
+                  <a-input v-model="groupName" :placeholder="$t('please_input')" />
                 </a-form-item>
               </a-col>
             </a-row>
           </div>
           <div style="text-align: center;margin: 0 auto 25px;">
-            <a-button type="primary" @click="getData()">查询</a-button>
-            <a-button style="margin-left: 8px" @click="reset()">重置</a-button>
+            <a-button type="primary" @click="getData()">{{ $t('query') }}</a-button>
+            <a-button style="margin-left: 8px" @click="reset()">{{ $t('reset') }}</a-button>
           </div>
         </a-form>
       </div>
       <div>
         <a-space class="operator">
-          <a-button @click="addNew" type="primary">新建</a-button>
+          <a-button @click="addNew" type="primary">{{ $t('create') }}</a-button>
         </a-space>
         <standard-table
             :columns="columns"
             :dataSource="dataSource"
             :selectedRows.sync="selectedRows"
         >
-          <div slot="name" slot-scope="{text}">
+          <div slot="groupName" slot-scope="{text}">
             {{text}}
           </div>
 
-          <div slot="url" slot-scope="{text}">
+          <div slot="groupWeight" slot-scope="{text}">
             {{text}}
           </div>
 
-          <div slot="icon" slot-scope="{text}">
-            {{text}}
-          </div>
-
-          <div slot="summary" slot-scope="{text}">
+          <div slot="groupDescription" slot-scope="{text}">
             {{text}}
           </div>
 
           <div slot="action" slot-scope="{text, record}">
-            <router-link :to="`/myapps/apps-detail/${record.seqNo}`" style="margin-right: 8px;">详情</router-link>
-            <router-link :to="`/myapps/apps-edit/${record.seqNo}`" style="margin-right: 8px;"><a-icon type="edit"/>编辑</router-link>
+            <router-link :to="`finance-group-details/${record.seqNo}`" style="margin-right: 8px;">{{ $t('details') }}</router-link>
+            <router-link :to="`/finance-center/finance-group-edit/${record.seqNo}`" style="margin-right: 8px;"><a-icon type="edit"/>
+              {{ $t('edit') }}</router-link>
             <a-popconfirm
-                title="确定删除吗?"
-                ok-text="确定"
-                cancel-text="我再想想"
+                :title="$t('question')"
+                :ok-text="$t('confirm')"
+                :cancel-text="$t('cancel')"
                 @confirm="confirm(record.seqNo)"
             >
               <a>
-                <a-icon type="delete" />删除
+                <a-icon type="delete" />
+                {{ $t('delete') }}
               </a>
             </a-popconfirm>
           </div>
@@ -68,34 +66,27 @@
 </template>
 
 <script>
-import StandardTable from '@/components/table/StandardTable'
-import {getAll,remove} from '@/services/app'
+import StandardTable from '@/components/table/StandardTable/'
+import { financeGroupService } from '@/services/'
 
 const columns = [
   {
-    title: '应用名称',
-    dataIndex: 'name',
+    title: "名称",
+    dataIndex: 'groupName',
     ellipsis: true,
-    scopedSlots: { customRender: 'name' }
+    scopedSlots: { customRender: 'groupName' }
   },
   {
-    title: 'Url',
-    dataIndex: 'url',
+    title: '权重',
+    dataIndex: 'groupWeight',
     ellipsis: true,
-    scopedSlots: { customRender: 'url' }
-  },
-  {
-    title: 'Icon',
-    dataIndex: 'icon',
-    needTotal: false,
-    ellipsis: true,
-    scopedSlots: { customRender: 'icon' }
+    scopedSlots: { customRender: 'groupWeight' }
   },
   {
     title: '描述',
-    dataIndex: 'summary',
+    dataIndex: 'groupDescription',
     ellipsis: true,
-    scopedSlots: { customRender: 'summary' }
+    scopedSlots: { customRender: 'groupDescription' }
   },
   {
     title: '操作',
@@ -127,7 +118,7 @@ export default {
 
   methods: {
     async getData () {
-      await getAll(`pageIndex=1&pageSize=1000&name=${this.appName}`).then(res=>this.requestAfter(res))
+      await financeGroupService.getAll(`sid=1&groupName=${this.groupName}`).then(res=>this.requestAfter(res))
     },
 
     requestAfter (res) {
@@ -148,15 +139,15 @@ export default {
     },
 
     addNew () {
-      this.$router.push({ path: '/myapps/apps-add' })
+      this.$router.push({ path: 'finance-apps-add' })
     },
 
     async confirm(seqNo) {
-      await remove(seqNo).then(res=>this.remove(res))
+      await financeGroupService.remove(seqNo).then(res=>this.remove(res))
     },
 
     reset () {
-      this.appName=''
+      this.groupName=''
     }
 
   }

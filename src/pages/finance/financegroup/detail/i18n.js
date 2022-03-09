@@ -1,7 +1,7 @@
 module.exports = {
   messages: {
     CN: {
-      pageDesc: '添加应用',
+      pageDesc: '分组详情',
       groupName: '分组名称',
       groupNameInput: '给分组起个名字',
       validateGroupName: '分组名称需要填写呦',
@@ -9,18 +9,6 @@ module.exports = {
       groupWeightInput: '分组权重',
       validateGroupWeight: '分组权重需要填写呦',
       groupDescription: '描述',
-      groupDescriptionInput: '描述信息',
-      please_input: '请输入',
-      query: '查询',
-      submit: '提交',
-      reset: '重置',
-      create: '新建',
-      details: '详情',
-      edit: '编辑',
-      delete: '删除',
-      question: '确定删除吗?',
-      confirm: '确定',
-      cancel: '我再想想',
     },
     US: {
       pageDesc: 'Form pages are used to collect or verify information to users, and basic forms are common in scenarios where there are fewer data items.',

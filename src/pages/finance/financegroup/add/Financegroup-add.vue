@@ -7,8 +7,8 @@
           <a-input v-model="appForm.groupName" :placeholder="$t('groupNameInput')" autocomplete="off" :maxLength="num255"/>
         </a-form-model-item>
 
-        <a-form-model-item has-feedback prop="groupWeight" :label="$t('weight')">
-          <a-input v-model="appForm.groupWeight" :placeholder="$t('weightInput')" autocomplete="off" />
+        <a-form-model-item has-feedback prop="groupWeight" :label="$t('groupWeight')">
+          <a-input v-model="appForm.groupWeight" :placeholder="$t('groupWeightInput')" autocomplete="off" />
         </a-form-model-item>
 
         <a-form-model-item has-feedback prop="groupDescription" :label="$t('groupDescription')">
