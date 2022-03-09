@@ -1,3 +1,3 @@
-import MyappsEdit from './Myapps-edit'
+import MyappsEdit from './FinanceGroup-edit'
 
 export default MyappsEdit

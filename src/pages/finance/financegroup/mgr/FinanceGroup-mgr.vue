@@ -45,7 +45,7 @@
 
           <div slot="action" slot-scope="{text, record}">
             <router-link :to="`finance-group-details/${record.seqNo}`" style="margin-right: 8px;">{{ $t('details') }}</router-link>
-            <router-link :to="`/finance-center/finance-group-edit/${record.seqNo}`" style="margin-right: 8px;"><a-icon type="edit"/>
+            <router-link :to="`finance-group-edit/${record.seqNo}`" style="margin-right: 8px;"><a-icon type="edit"/>
               {{ $t('edit') }}</router-link>
             <a-popconfirm
                 :title="$t('question')"
