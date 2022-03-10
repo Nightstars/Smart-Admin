@@ -102,6 +102,14 @@ const options = {
               component: () => import('@/pages/finance/financeapp/home/'),
             },
             {
+              path: 'finance-app-frame',
+              name: '详情',
+              meta: {
+                invisible: true
+              },
+              component: () => import('@/pages/finance/financeapp/frame/'),
+            },
+            {
               path: 'finance-group-add',
               name: '添加分组',
               meta: {
